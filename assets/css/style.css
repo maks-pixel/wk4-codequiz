@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*center content might have to change to add header and figure out end high score page*/
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.container{
+    padding: 10px;
+    max-width: 80%;
+}
+
+.ans-btn{
+    display: grid;
+    grid-template-columns: auto;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.btn{
+    background-color: blueviolet;
+    border: 1px solid black;
+    border-radius: 5px;
+    color:white;
+    outline: none;
+    padding: 10px 15px;
+}
+
+button:hover{
+    background-color: white;
+    color: blueviolet;
+    font-weight: bold;
+}
+
+.next-btn, .start-btn{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 20px 15px;
+}
+
+.controls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* to start with start button*/
+.hide{
+    display: none;
+}
