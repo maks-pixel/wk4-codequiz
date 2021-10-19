@@ -87,14 +87,12 @@
 var startBtn = document.getElementById("start-btn");
 var questionBox = document.getElementById("question-area");
 var questionEl = document.getElementById("question");
-var answerA = document.getElementById("ans-btn-a");
-var answerB = document.getElementById("ans-btn-b");
-var answerC = document.getElementById("ans-btn-c");
-var answerD = document.getElementById("ans-btn-d");
-var score = 0;
-var timeLeft = 10; // will change to 60 later but easier to test at 10
+var choiceContatiner =  document.getElementById('choices');
+var timeLeft = 60; // will change to 60 later but easier to test at 10
 var timer = document.getElementById("timer");  
 var time;
+var submit = document.getElementById('submit');
+var questionBankIndex = 0;
 var questionBank = [
     {
         question: "what does HTML stand for?",
@@ -149,6 +147,7 @@ var questionBank = [
 ]
 
 var startGame = function () {
+    timer.textContent = timeLeft
     startBtn.classList.add("hide");
     questionBox.classList.remove("hide");
     makeQuestion();
@@ -156,45 +155,88 @@ var startGame = function () {
     time = setInterval(updateTimer, 1000);
 };
 
-startBtn.addEventListener("click", startGame);
+
 
 //hw to make this loop work?
 var makeQuestion = function (){
-    for (let i = 0; i < questionBank.length; i++) {
-    //   console.log(questionBank[i]);
-    questionEl.innerHTML = questionBank[i].question;
-    answerA.innerHTML = questionBank[i].choices[0];
-    answerB.innerHTML = questionBank[i].choices[1];
-    answerC.innerHTML = questionBank[i].choices[2];
-    answerD.innerHTML = questionBank[i].choices[3];
-    // document.addEventListener("click", answerCheck())
-    }
+   var currentQuestion = questionBank[questionBankIndex];
+
+   questionEl.innerHTML = currentQuestion.question;
+
+   choiceContatiner.innerHTML = '';
+
+    currentQuestion.choices.forEach(function(choice, i){
+        var choiceBtn = document.createElement('button');
+        choiceBtn.setAttribute('class', 'choice');
+        choiceBtn.setAttribute('value', choice);
+
+        choiceBtn.textContent = choice;
+
+        choiceBtn.onclick = answerCheck;
+
+        choiceContatiner.appendChild(choiceBtn);
+    })
     
 }
 
 // how to get this to execute when answer button is clicked
 var answerCheck = function (){
-    if (questionBank[i].choices[i].match(this.answer)){
-    score = score + 10
-    } else{
-        timerLeft = timerLeft - 5;
+
+
+    if (this.value !== questionBank[questionBankIndex].answer){
+    timeLeft -= 5
+
+    if (timeLeft <0){
+        time = 0
+    }
+
+    timer.textContent = timeLeft
+
     } 
-    makeQuestion()
+    
+    questionBankIndex++
+
+    if(questionBankIndex === questionBank.length){
+        endGame()
+    }else{
+        makeQuestion()
+
+    }
+
     // console.log("Clicked by User");
 }
 
 function endGame() {
+    clearInterval(time);
     questionBox.classList.add('hide');
+    var endScreen = document.getElementById('endScreen');
+    endScreen.classList.remove('hide');
+    var score = document.getElementById('finalScore');
+    score.textContent = timeLeft;
+    timer.innerHTML = "Game Over"
+}
+
+function saveScore() {
+    var initials = document.getElementById('initials').value;
+    // console.log(initials)
+    var highScores = JSON.parse(localStorage.getItem('scores')) || [];
+    var yourScore = {
+        initials: initials,
+        score: timeLeft
+    };
+    highScores.push(yourScore);
+    localStorage.setItem("scores", JSON.stringify(highScores));
 }
 
 function updateTimer() {
     // console.log(timeLeft);
-    timeLeft = timeLeft - 1;
-    timer.innerHTML = timeLeft;
+    timeLeft--;
+    timer.textContent = timeLeft;
     //  console.log(timeLeft);
     if (timeLeft === 0) {
-        clearInterval(time);
-        timer.innerHTML = "Times Up"
         endGame();
     } 
 };
+
+startBtn.addEventListener("click", startGame);
+submit.addEventListener('click', saveScore);
