@@ -92,7 +92,7 @@ var answerB = document.getElementById("ans-btn-b");
 var answerC = document.getElementById("ans-btn-c");
 var answerD = document.getElementById("ans-btn-d");
 var score = 0;
-var timeLeft = 10;
+var timeLeft = 10; // will change to 60 later but easier to test at 10
 var timer = document.getElementById("timer");  
 var time;
 var questionBank = [
@@ -115,6 +115,36 @@ var questionBank = [
             "code that is not organized"
         ],
         answer: "when code can be executed without stopping the entire thread"
+    },   
+    {
+        question: "what does TDD stand for?",
+        choices: [
+            "total domination decode",
+            "Test driven development",
+            "time data development",
+            "test domain data"
+        ],
+        answer: "Test driven development"
+    },
+    {
+        question: "what does OOP stand for?",
+        choices: [
+            "objective observent programing",
+            "outcome oriented project",
+            "object-oriented programming",
+            "old overseen programing"
+        ],
+        answer: "object-oriented programming"
+    },
+    {
+        question: "What is JSON?",
+        choices: [
+            "JavaScript Object Notation",
+            "a person",
+            "Job Saver Oriented Network",
+            "Do you mean Jason?"
+        ],
+        answer: "JavaScript Object Notation"
     },
 ]
 
@@ -128,6 +158,7 @@ var startGame = function () {
 
 startBtn.addEventListener("click", startGame);
 
+//hw to make this loop work?
 var makeQuestion = function (){
     for (let i = 0; i < questionBank.length; i++) {
     //   console.log(questionBank[i]);
@@ -144,19 +175,26 @@ var makeQuestion = function (){
 // how to get this to execute when answer button is clicked
 var answerCheck = function (){
     if (questionBank[i].choices[i].match(this.answer)){
-    score = score + 1
+    score = score + 10
     } else{
-        timer = timer - 5;
+        timerLeft = timerLeft - 5;
     } 
     makeQuestion()
     // console.log("Clicked by User");
 }
 
+function endGame() {
+    questionBox.classList.add('hide');
+}
+
 function updateTimer() {
-    console.log(timeLeft);
+    // console.log(timeLeft);
     timeLeft = timeLeft - 1;
+    timer.innerHTML = timeLeft;
     //  console.log(timeLeft);
     if (timeLeft === 0) {
         clearInterval(time);
+        timer.innerHTML = "Times Up"
+        endGame();
     } 
 };
