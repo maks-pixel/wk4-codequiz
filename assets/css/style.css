@@ -1,25 +1,31 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 }
 
 /*center content might have to change to add header and figure out end high score page*/
 body{
     width: 100vw;
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
+header{
+    padding: 60px;
+    text-align: center;
+    background: blueviolet;
+    color: white;
+    font-size: 30px;
+}
 
 .container{
     padding: 10px;
-    max-width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.ans-btn{
+.choices{
     display: grid;
     grid-template-columns: auto;
     gap: 10px;
@@ -49,8 +55,8 @@ button:hover{
 
 .controls{
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 /* to start with start button*/
