@@ -1,97 +1,15 @@
-// var startBtn = document.getElementById("start-btn");
-// var questionBox = document.getElementById("question-area");
-// var questionEl = document.getElementById("question");
-// var answerEl = document.getElementById("ans-btn");
-// var currentQuestion = "";
-// var shuffleQuestion = "";
-// var currentQuestionIndex = 0
-
-// //    currentQuestion[Math.floor(Math.random() * questionInfo)];
-// // var score = 10;
-// // var time = 60;
-// // maxQuestion = question info length of arrays
-
-// var questionInfo = [
-//     {
-//         question: "whats your fave number?",
-//         choices: [
-//              "7", 
-//             "21", 
-//              "69",
-//              "13"
-//         ],
-//         answer: "21"
-
-//     },
-//     {
-//         question: "whats your fave number?",
-//         choices: [
-//             { text: "9", correct: false },
-//             { text: "57", correct: false },
-//             { text: "420", correct: true },
-//             { text: "2", correct: true }
-//         ]
-
-//     }
-
-// ]
-
-// //start function to start game by sending you to the first question and start the timer
-
-// var startGame = function () {
-//     console.log("lets begin");
-//     startBtn.classList.add("hide");
-//     currentQuestion = 0;
-//     for (i = 0; i < questionInfo; i++) {
-//         shuffleQuestion =
-//             currentQuestion[Math.floor(Math.random() * questionInfo.length)];
-//     }
-
-//     // document.body.innerHTML = randomQuestion;
-//     questionBox.classList.remove("hide");
-//     nextQuestion()
-// };
-
-// startBtn.addEventListener("click", startGame);
-
-// //question function to bring up the next question and answers to pick from
-// //check if the answer is correct
-// //answer wrong time off timer
-// //move on to next question
-// //make questions random
-
-// function nextQuestion() {
-//     showQuestion(shuffleQuestion[currentQuestion]);
-//     questionEl.innerText = question.question
-//     questionInfo[0].choices.forEach(answer => {
-//         var button = document.
-//     })
-// }
-// function showQuestion(question) {
-
-// }
-
-
-
-//question list picking random question
-
-//timer function
-
-
-//high score local storage
-
-//display that in the corner of the screen
-
 
 // =====================================================================================
 var startBtn = document.getElementById("start-btn");
 var questionBox = document.getElementById("question-area");
 var questionEl = document.getElementById("question");
-var choiceContatiner =  document.getElementById('choices');
+var choiceContatiner = document.getElementById('choices');
 var timeLeft = 60; // will change to 60 later but easier to test at 10
-var timer = document.getElementById("timer");  
+var timer = document.getElementById("timer");
 var time;
 var submit = document.getElementById('submit');
+var highScoreContainer = document.getElementById('highScoreContainer')
+var highScoresList = document.getElementById('highScore')
 var questionBankIndex = 0;
 var questionBank = [
     {
@@ -113,7 +31,7 @@ var questionBank = [
             "code that is not organized"
         ],
         answer: "when code can be executed without stopping the entire thread"
-    },   
+    },
     {
         question: "what does TDD stand for?",
         choices: [
@@ -158,16 +76,16 @@ var startGame = function () {
 
 
 //hw to make this loop work?
-var makeQuestion = function (){
-   var currentQuestion = questionBank[questionBankIndex];
+var makeQuestion = function () {
+    var currentQuestion = questionBank[questionBankIndex];
 
-   questionEl.innerHTML = currentQuestion.question;
+    questionEl.innerHTML = currentQuestion.question;
 
-   choiceContatiner.innerHTML = '';
+    choiceContatiner.innerHTML = '';
 
-    currentQuestion.choices.forEach(function(choice, i){
+    currentQuestion.choices.forEach(function (choice) {
         var choiceBtn = document.createElement('button');
-        choiceBtn.setAttribute('class', 'choice');
+        choiceBtn.setAttribute('class', 'choice btn');
         choiceBtn.setAttribute('value', choice);
 
         choiceBtn.textContent = choice;
@@ -176,29 +94,29 @@ var makeQuestion = function (){
 
         choiceContatiner.appendChild(choiceBtn);
     })
-    
+
 }
 
 // how to get this to execute when answer button is clicked
-var answerCheck = function (){
+var answerCheck = function () {
 
 
-    if (this.value !== questionBank[questionBankIndex].answer){
-    timeLeft -= 5
+    if (this.value !== questionBank[questionBankIndex].answer) {
+        timeLeft -= 5
 
-    if (timeLeft <0){
-        time = 0
+        if (timeLeft < 0) {
+            time = 0
+        }
+
+        timer.textContent = timeLeft
+
     }
 
-    timer.textContent = timeLeft
-
-    } 
-    
     questionBankIndex++
 
-    if(questionBankIndex === questionBank.length){
+    if (questionBankIndex === questionBank.length) {
         endGame()
-    }else{
+    } else {
         makeQuestion()
 
     }
@@ -214,12 +132,15 @@ function endGame() {
     var score = document.getElementById('finalScore');
     score.textContent = timeLeft;
     timer.innerHTML = "Game Over"
+    highScoresScreen();
+    highScoreContainer.classList.remove('hide');
+
 }
 
 function saveScore() {
     var initials = document.getElementById('initials').value;
-    // console.log(initials)
     var highScores = JSON.parse(localStorage.getItem('scores')) || [];
+    console.log(highScores);
     var yourScore = {
         initials: initials,
         score: timeLeft
@@ -228,6 +149,19 @@ function saveScore() {
     localStorage.setItem("scores", JSON.stringify(highScores));
 }
 
+var highScoresScreen = function () {
+    var highScores = JSON.parse(localStorage.getItem('scores')) || [];
+    console.log(highScores);
+    
+    for (let i = 0; i < highScores.length; i++) {
+        var scoreLi = document.createElement('li');
+        scoreLi.setAttribute('class', 'score');
+        scoreLi.innerHTML = JSON.stringify(highScores[i]);
+        highScoresList.appendChild(scoreLi);
+    };
+  
+};
+
 function updateTimer() {
     // console.log(timeLeft);
     timeLeft--;
@@ -235,7 +169,7 @@ function updateTimer() {
     //  console.log(timeLeft);
     if (timeLeft === 0) {
         endGame();
-    } 
+    }
 };
 
 startBtn.addEventListener("click", startGame);
