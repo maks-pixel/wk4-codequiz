@@ -10,6 +10,7 @@ var time;
 var submit = document.getElementById('submit');
 var highScoreContainer = document.getElementById('highScoreContainer')
 var highScoresList = document.getElementById('highScore')
+var restartBtn = document.getElementById('restart-btn')
 var questionBankIndex = 0;
 var questionBank = [
     {
@@ -134,6 +135,7 @@ function endGame() {
     timer.innerHTML = "Game Over"
     highScoresScreen();
     highScoreContainer.classList.remove('hide');
+    restartBtn.classList.remove('hide');
 
 }
 
@@ -162,15 +164,20 @@ var highScoresScreen = function () {
   
 };
 
+var restart = function(){ 
+    location.reload()
+};
+
 function updateTimer() {
     // console.log(timeLeft);
     timeLeft--;
     timer.textContent = timeLeft;
     //  console.log(timeLeft);
-    if (timeLeft === 0) {
+    if (timeLeft <= 0) {
         endGame();
     }
 };
 
 startBtn.addEventListener("click", startGame);
 submit.addEventListener('click', saveScore);
+restartBtn.addEventListener("click", restart);
