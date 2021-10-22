@@ -1,10 +1,10 @@
-
-// =====================================================================================
 var startBtn = document.getElementById("start-btn");
+var instructions = document.getElementById('instructions');
+var title = document.getElementById('title');
 var questionBox = document.getElementById("question-area");
 var questionEl = document.getElementById("question");
 var choiceContatiner = document.getElementById('choices');
-var timeLeft = 60; // will change to 60 later but easier to test at 10
+var timeLeft = 60;
 var timer = document.getElementById("timer");
 var time;
 var submit = document.getElementById('submit');
@@ -65,66 +65,52 @@ var questionBank = [
     },
 ]
 
+//starting the game when clicking the start btn
 var startGame = function () {
     timer.textContent = timeLeft
     startBtn.classList.add("hide");
+    instructions.classList.add('hide');
+    title.classList.add('hide')
     questionBox.classList.remove("hide");
     makeQuestion();
     timer.classList.remove("hide");
     time = setInterval(updateTimer, 1000);
 };
 
-
-
-//hw to make this loop work?
+//creating the questions and aswers
 var makeQuestion = function () {
     var currentQuestion = questionBank[questionBankIndex];
-
     questionEl.innerHTML = currentQuestion.question;
-
     choiceContatiner.innerHTML = '';
-
     currentQuestion.choices.forEach(function (choice) {
         var choiceBtn = document.createElement('button');
         choiceBtn.setAttribute('class', 'choice btn');
         choiceBtn.setAttribute('value', choice);
-
         choiceBtn.textContent = choice;
-
         choiceBtn.onclick = answerCheck;
-
         choiceContatiner.appendChild(choiceBtn);
     })
-
 }
 
-// how to get this to execute when answer button is clicked
+// checking the asnswers and changing your time accordingly 
 var answerCheck = function () {
-
-
     if (this.value !== questionBank[questionBankIndex].answer) {
         timeLeft -= 5
-
         if (timeLeft < 0) {
             time = 0
         }
-
         timer.textContent = timeLeft
-
     }
-
     questionBankIndex++
-
     if (questionBankIndex === questionBank.length) {
         endGame()
     } else {
         makeQuestion()
-
     }
-
     // console.log("Clicked by User");
-}
+};
 
+//ending the timer and questions and displaying scores and and restart btn
 function endGame() {
     clearInterval(time);
     questionBox.classList.add('hide');
@@ -136,9 +122,9 @@ function endGame() {
     highScoresScreen();
     highScoreContainer.classList.remove('hide');
     restartBtn.classList.remove('hide');
+};
 
-}
-
+// saving the scores based on the timer
 function saveScore() {
     var initials = document.getElementById('initials').value;
     var highScores = JSON.parse(localStorage.getItem('scores')) || [];
@@ -151,23 +137,26 @@ function saveScore() {
     localStorage.setItem("scores", JSON.stringify(highScores));
 }
 
+//displaying high scores at the end
 var highScoresScreen = function () {
     var highScores = JSON.parse(localStorage.getItem('scores')) || [];
     console.log(highScores);
-    
+
     for (let i = 0; i < highScores.length; i++) {
         var scoreLi = document.createElement('li');
         scoreLi.setAttribute('class', 'score');
         scoreLi.innerHTML = JSON.stringify(highScores[i]);
         highScoresList.appendChild(scoreLi);
     };
-  
+
 };
 
-var restart = function(){ 
+//restart btn to restart the game
+var restart = function () {
     location.reload()
 };
 
+//timer going down
 function updateTimer() {
     // console.log(timeLeft);
     timeLeft--;

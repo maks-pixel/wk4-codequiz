@@ -19,6 +19,19 @@ header{
     font-size: 30px;
 }
 
+.instructions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 15px 200px;
+    padding: 10px 20px;
+}
+
+.todo{
+    text-align: center;
+    padding: 8px;
+}
 .container{
     padding: 10px;
     display: flex;
@@ -80,4 +93,10 @@ li{
 /* to start with start button*/
 .hide{
     display: none;
+}
+
+@media only screen and (max-width: 600px){
+    .instructions{
+        margin: 15px 50px;;
+    }
 }
