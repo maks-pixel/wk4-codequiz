@@ -10,7 +10,7 @@ https://maks-pixel.github.io/wk4-codequiz/
 ## File links
 to open [index.html](index.html) file to view the code
 
-to open the screenshot here is the link [screenshotOne.png] (assets/images/screenshotOne.png) [screenshotTwo.png] (assets/images/screenshotTwo.png)
+to open the screenshot here is the link [screenshotOne.png](assets/images/screenshotOne.png) [screenshotTwo.png](assets/images/screenshotTwo.png)
 
 ![Screenshot](assets/images/screenshotOne.png)
 ![Screenshot](assets/images/screenshotTwo.png)
